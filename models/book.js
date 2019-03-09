@@ -8,7 +8,9 @@ var BookSchema = new Schema(
     author: {type: Schema.Types.ObjectId, ref: 'Author', required: true},
     summary: {type: String, required: true},
     isbn: {type: String, required: true},
-    genre: [{type: Schema.Types.ObjectId, ref: 'Genre'}]
+    genre: [{type: Schema.Types.ObjectId, ref: 'Genre'}],
+    votes: {type: Number, required: true},
+    apiurl: {type: String, required: false}
   }
 );
 

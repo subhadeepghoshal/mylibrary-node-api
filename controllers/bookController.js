@@ -24,17 +24,25 @@ exports.index = function(req, res) {
             Genre.countDocuments({}, callback);
         }
     }, function(err, results) {
+        res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+        res.header("Pragma", "no-cache");
+        res.header("Expires", 0);
+        res.status(200);
         res.json({data: results });
     });
 };
 
 // Display list of all books.
 exports.book_list = function(req, res) {
-    Book.find({}, 'title author')
+    Book.find({}, 'title author summary votes')
     .populate('author')
     .exec(function (err, list_books) {
       if (err) { return next(err); }
       //Successful, so render
+      res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+      res.header("Pragma", "no-cache");
+      res.header("Expires", 0);
+      res.status(200)
       res.json({ title: 'Book List', book_list: list_books });
     });
 };
@@ -72,7 +80,7 @@ exports.book_create_get = function(req, res) {
 };
 
 // Handle book create on POST.
-exports.book_create_post = function(req, res) {
+exports.book_create_post = function(req, res,next) {
        
     // Create a Book object with escaped and trimmed data.
     var book = new Book(
@@ -80,9 +88,10 @@ exports.book_create_post = function(req, res) {
           author: req.body.author,
           summary: req.body.summary,
           isbn: req.body.isbn,
-          genre: req.body.genre
+          genre: req.body.genre,
+          votes: req.body.votes
         });
-
+    console.log(book)
     book.save(function (err) {
         if (err) { return next(err); }
             //successful - redirect to new book record.
