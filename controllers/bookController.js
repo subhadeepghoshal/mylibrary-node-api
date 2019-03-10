@@ -100,14 +100,14 @@ exports.book_create_post = function(req, res,next) {
 
 };
 
-// Display book delete form on GET.
-exports.book_delete_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book delete GET');
-};
 
 // Handle book delete on POST.
 exports.book_delete_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: Book delete POST');
+    Book.findByIdAndRemove(req.params.id, function deleteAuthor(err) {
+        if (err) { return next(err); }
+        // Success - go to author list
+        res.json({result:"success"})
+    })
 };
 
 // Display book update form on GET.

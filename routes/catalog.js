@@ -17,6 +17,9 @@ router.get('/books', book_controller.book_list);
 router.get('/book/:id', book_controller.book_detail);
 // POST request for creating Book.
 router.post('/book/create', book_controller.book_create_post);
+// POST request for deleting Book.
+router.post('/book/:id/delete', book_controller.book_delete_post);
+
 
 /// AUTHOR ROUTES ///
 router.get('/authors', author_controller.author_list);
